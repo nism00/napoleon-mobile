@@ -5,48 +5,78 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
+import java.lang.Exception
 import java.security.AccessControlContext
 
-val DATABASE_NAME = "mDB"
-val TABLE_NAME = "orders2"
-val COL_NAME = "name"
-val COL_DATE = "date"
-val COL_TIME = "time"
-val COL_PHONE = "phone"
-val COL_ID = "id"
-
-class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    companion object {
+        val DATABASE_NAME = "mDB"
+        val TABLE_NAME = "position"
+        val COL_NAME = "name"
+        val COL_DESCRIPTION = "description"
+        val COL_COST = "cost"
+        val COL_ID = "id"
+        val COL_IMAGE = "image"
+        val DATABASE_VERSION = 1
+    }
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable = "CREATE TABLE " + TABLE_NAME + " (" +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_ID + " INTEGER PRIMARY KEY, " +
                 COL_NAME + " VARCHAR(256), " +
-                COL_PHONE + " VARCHAR(256), " +
-                COL_DATE + " VARCHAR(256), " +
-                COL_TIME + " VARCHAR(256)) "
-        print(createTable)
-        Toast.makeText(context, createTable, Toast.LENGTH_LONG).show()
+                COL_DESCRIPTION + " VARCHAR(256), " +
+                COL_IMAGE + " VARCHAR(256), " +
+                COL_COST + " INTEGER) "
+        println(createTable)
+        Toast.makeText(context, createTable, Toast.LENGTH_SHORT).show()
         db?.execSQL(createTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //db?.execSQL("DROP TABLE IF EXISTS ${TABLE_NAME}")
     }
 
-    fun insertData(order: Order) {
+    fun isExistRowById(id: Int): Position? {
+        val db = this.writableDatabase
+        var position: Position?= null
+        try {
+            val cursor = db.rawQuery("SELECT ID, NAME, DESCRIPTION," +
+                    "COST, IMAGE FROM ${TABLE_NAME} WHERE ${COL_ID} = " + id, null)
+            if (cursor.moveToFirst()) {
+                cursor.moveToFirst()
+                val id = cursor.getString(0)
+                val name = cursor.getString(1)
+                val description = cursor.getString(2)
+                val cost = cursor.getString(3)
+                val image = cursor.getString(4)
+
+                position = Position(id.toInt(), name, cost, description, image)
+                cursor.close()
+            }
+        } catch (e :Exception) {
+            println(e.localizedMessage)
+        }
+
+        println(position)
+        db.close()
+        return position
+    }
+
+    fun insertPosition(position: Position) {
         val db = this.writableDatabase
         var cv = ContentValues()
 
-        cv.put(COL_NAME, order.name)
-        cv.put(COL_PHONE, order.phone)
-        cv.put(COL_DATE, order.date)
-        cv.put(COL_TIME, order.time)
-
+        cv.put(COL_NAME, position.name)
+        cv.put(COL_IMAGE, position.image)
+        cv.put(COL_DESCRIPTION, position.description)
+        cv.put(COL_COST, position.cost)
+        cv.put(COL_ID, position.id)
+        println(cv.get(COL_DESCRIPTION))
         var result = db.insert(TABLE_NAME, null, cv)
         print(cv)
         if (result == -1.toLong()) {
-            Toast.makeText(context, "Ошибка записи бронирования", Toast.LENGTH_SHORT).show()
+            println("Ошибка записи позиции меню")
         } else {
-            Toast.makeText(context, "Заявка на бронирование отправлена", Toast.LENGTH_SHORT).show()
+            println("Позиция меню успешно добавлена")
         }
     }
 }

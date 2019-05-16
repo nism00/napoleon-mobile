@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -13,6 +14,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_order.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.IOException
@@ -21,19 +23,16 @@ import java.util.*
 
 class OrderActivity : AppCompatActivity() {
 
-
     var dateFormate: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy")
     var timeFormat: SimpleDateFormat = SimpleDateFormat("hh:mm")
     lateinit var textView: TextView
+    lateinit var context: OrderActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
 
         textView = findViewById<TextView>(R.id.result)
-        //setting the text.
-        //textView.text = "Text changed" - работает
-
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -65,21 +64,14 @@ class OrderActivity : AppCompatActivity() {
             timeWidget.show()
         }
 
-        val context = this
+        context = this
 
         saveOrder.setOnClickListener({
             if (userName.text.toString().length > 0 &&
                 phone.text.toString().length > 0 &&
                 date.text.toString().length > 0 &&
                 time.text.toString().length > 0) {
-
                 sendOrderToApi()
-
-                /*var order = Order(userName.text.toString(), phone.text.toString(), date.text.toString(), time.text.toString())
-                var db                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   = DBHandler(context)
-                db.insertData(order)*/
-
-                Toast.makeText(context, "MB SAVE", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "Заполните все поля", Toast.LENGTH_SHORT).show()
             }
@@ -89,7 +81,7 @@ class OrderActivity : AppCompatActivity() {
 
     fun String.toColor(): Int = Color.parseColor(this)
 
-    fun sendOrderToApi(){
+    fun sendOrderToApi() {
         val httpClient = OkHttpClient.Builder().build()
         val request = Request.Builder().url("http://www.s192361.smrtp.ru/insert_order.php?" +
                 "date="+date.text+
@@ -103,29 +95,46 @@ class OrderActivity : AppCompatActivity() {
                 println(body)
 
                 val gson = GsonBuilder().create()
-                val res = gson.fromJson(body, RequsetApi::class.java)
+                val order = gson.fromJson(body, RequsetApi::class.java)
 
-                //textView.text = "asd" - не работает
-
-
-                /*if (res.result == RequsetApi.SUCCESS_RESULT) {
-                    textView.setTextColor("#04DE5B".toColor())
-                } else {
-                    textView.setTextColor("#DE0404".toColor())
-                }*/
-
-                Toast.makeText(this@OrderActivity, "Вроде всё норм", Toast.LENGTH_SHORT).show()
+                runOnUiThread{
+                    textView.text = order.message
+                    if (order.result == RequsetApi.SUCCESS_RESULT) {
+                        textView.setTextColor(Color.parseColor("#04DE5B"))
+                        println(Color.parseColor("#04DE5B"))
+                    } else {
+                        textView.setTextColor(Color.parseColor("#DE0404"))
+                    }
+                    Toast.makeText(context, "Вроде всё норм", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onFailure(call: Call, e: IOException) {
-                Toast.makeText(this@OrderActivity, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+                runOnUiThread {
+                    Toast.makeText(context, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+                }
+                e?.printStackTrace()
             }
         })
+    }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.run {
+            putString("result", textView.text.toString())
+            putInt("color", textView.currentTextColor)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        textView.text = savedInstanceState?.getString("result")
+        textView.setTextColor(savedInstanceState!!.getInt("color"))
     }
 }
 
-class RequsetApi(val result: String, val message: String){
+class RequsetApi(var result: String, var message: String){
     companion object {
         val SUCCESS_RESULT = "success"
         val ERROR_RESULT = "error"
