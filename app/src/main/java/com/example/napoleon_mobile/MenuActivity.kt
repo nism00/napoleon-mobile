@@ -13,7 +13,7 @@ import okhttp3.Request
 import kotlin.coroutines.CoroutineContext
 
 class MenuActivity: AppCompatActivity(), CoroutineScope {
-    val adapter = MenuAdapter(/*this*/)
+    val adapter = MenuAdapter()
 
     private val httpClient = OkHttpClient.Builder().build()
 

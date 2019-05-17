@@ -4,9 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.widget.Toast
 import java.lang.Exception
-import java.security.AccessControlContext
 
 class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
@@ -26,13 +24,11 @@ class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
                 COL_DESCRIPTION + " VARCHAR(256), " +
                 COL_IMAGE + " VARCHAR(256), " +
                 COL_COST + " INTEGER) "
-        println(createTable)
-        Toast.makeText(context, createTable, Toast.LENGTH_SHORT).show()
         db?.execSQL(createTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        //db?.execSQL("DROP TABLE IF EXISTS ${TABLE_NAME}")
+        //
     }
 
     fun isExistRowById(id: Int): Position? {
@@ -56,7 +52,6 @@ class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
             println(e.localizedMessage)
         }
 
-        println(position)
         db.close()
         return position
     }
@@ -70,9 +65,9 @@ class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         cv.put(COL_DESCRIPTION, position.description)
         cv.put(COL_COST, position.cost)
         cv.put(COL_ID, position.id)
-        println(cv.get(COL_DESCRIPTION))
+
         var result = db.insert(TABLE_NAME, null, cv)
-        print(cv)
+
         if (result == -1.toLong()) {
             println("Ошибка записи позиции меню")
         } else {

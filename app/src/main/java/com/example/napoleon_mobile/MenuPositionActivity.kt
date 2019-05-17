@@ -6,7 +6,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.menu_position.*
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
@@ -19,7 +18,7 @@ class MenuPositionActivity : AppCompatActivity() {
 
         val test = intent.getStringExtra(MenuAdapter.ViewHolder.TITLE)
         val id = intent.getIntExtra(MenuAdapter.ViewHolder.ID, -1)
-        println(id)
+
         supportActionBar?.title = test
 
         val context = this
@@ -42,9 +41,8 @@ class MenuPositionActivity : AppCompatActivity() {
 
         description.text = position.description
         name.text = position.name
-        cost.text = position.cost
+        cost.text = position.cost + this.getString(R.string.rouble)
         try {
-
             Picasso.with(this).load(position.image).into(image)
         } catch (e: Exception) {
             println(e.message)
@@ -61,11 +59,9 @@ class MenuPositionActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response?.body()?.string()
-                println(body)
                 val gson = GsonBuilder().create()
                 val position = gson.fromJson(body, Position::class.java)
 
-                println(position)
                 runOnUiThread {
                     drawDetailPage(position)
                 }

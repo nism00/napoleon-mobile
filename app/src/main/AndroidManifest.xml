@@ -17,11 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".OrderActivity">
+        <activity android:name=".OrderActivity"
+                  android:label="@string/set_order_title">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".MainActivity"/>
         </activity>
-        <activity android:name=".MenuActivity">
+        <activity android:name=".MenuActivity"
+                  android:label="@string/menu_title">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".MainActivity"/>
         </activity>

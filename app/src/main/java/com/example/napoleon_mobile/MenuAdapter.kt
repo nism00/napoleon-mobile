@@ -1,13 +1,11 @@
 package com.example.napoleon_mobile
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 
 class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
@@ -23,7 +21,7 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.findViewById<TextView>(R.id.menuItem).text = data[position].name
-        holder.itemView.findViewById<TextView>(R.id.costItem).text = data[position].cost
+        holder.itemView.findViewById<TextView>(R.id.costItem).text = data[position].cost + holder.itemView.context.getString(R.string.rouble)
 
         holder.position = data[position]
     }

@@ -5,17 +5,10 @@ import android.app.TimePickerDialog
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_order.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -24,7 +17,7 @@ import java.util.*
 class OrderActivity : AppCompatActivity() {
 
     var dateFormate: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy")
-    var timeFormat: SimpleDateFormat = SimpleDateFormat("hh:mm")
+    var timeFormat: SimpleDateFormat = SimpleDateFormat("HH:mm")
     lateinit var textView: TextView
     lateinit var context: OrderActivity
 
@@ -79,8 +72,6 @@ class OrderActivity : AppCompatActivity() {
 
     }
 
-    fun String.toColor(): Int = Color.parseColor(this)
-
     fun sendOrderToApi() {
         val httpClient = OkHttpClient.Builder().build()
         val request = Request.Builder().url("http://www.s192361.smrtp.ru/insert_order.php?" +
@@ -92,7 +83,6 @@ class OrderActivity : AppCompatActivity() {
         val response =  httpClient.newCall(request).enqueue(object: Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body()?.string()
-                println(body)
 
                 val gson = GsonBuilder().create()
                 val order = gson.fromJson(body, RequsetApi::class.java)
@@ -101,11 +91,10 @@ class OrderActivity : AppCompatActivity() {
                     textView.text = order.message
                     if (order.result == RequsetApi.SUCCESS_RESULT) {
                         textView.setTextColor(Color.parseColor("#04DE5B"))
-                        println(Color.parseColor("#04DE5B"))
                     } else {
                         textView.setTextColor(Color.parseColor("#DE0404"))
                     }
-                    Toast.makeText(context, "Вроде всё норм", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Вроде всё норм", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -131,12 +120,5 @@ class OrderActivity : AppCompatActivity() {
 
         textView.text = savedInstanceState?.getString("result")
         textView.setTextColor(savedInstanceState!!.getInt("color"))
-    }
-}
-
-class RequsetApi(var result: String, var message: String){
-    companion object {
-        val SUCCESS_RESULT = "success"
-        val ERROR_RESULT = "error"
     }
 }
