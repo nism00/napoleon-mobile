@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
@@ -24,7 +23,6 @@ class MenuActivity: AppCompatActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.menu_layout)
-        Toast.makeText(this, "asd", Toast.LENGTH_SHORT)
         val menuList = findViewById<RecyclerView>(R.id.menuList)
         menuList.layoutManager = LinearLayoutManager(this)
         menuList.adapter = adapter

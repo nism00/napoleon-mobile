@@ -36,14 +36,26 @@
             android:layout_height="19dp"
             app:srcCompat="@drawable/draw2"
             android:id="@+id/imageView3"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="19dp"
             android:layout_below="@+id/menuItem"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="26dp"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="22dp"
             android:layout_alignStart="@id/menuItem"
             android:layout_alignEnd="@+id/costItem"
             android:scaleType="fitXY"/>
+    <TextView
+            android:text="@string/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_below="@+id/menuItem"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentStart="true"
+            android:textAlignment="center"
+            android:textColor="#440202"/>
 
 </RelativeLayout>

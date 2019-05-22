@@ -94,7 +94,6 @@ class OrderActivity : AppCompatActivity() {
                     } else {
                         textView.setTextColor(Color.parseColor("#DE0404"))
                     }
-                    //Toast.makeText(context, "Вроде всё норм", Toast.LENGTH_SHORT).show()
                 }
             }
 

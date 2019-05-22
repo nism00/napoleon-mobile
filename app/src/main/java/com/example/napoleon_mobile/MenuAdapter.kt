@@ -28,14 +28,12 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     class ViewHolder(view: View, var position: Menu ?= null) : RecyclerView.ViewHolder(view) {
         companion object {
-            val TITLE = "title"
             val ID = "id"
         }
         init {
             view.setOnClickListener {
                 val intent = Intent(view.context, MenuPositionActivity::class.java)
 
-                intent.putExtra(TITLE, position!!.name)
                 intent.putExtra(ID, position!!.id)
                 view.context.startActivity(intent)
             }

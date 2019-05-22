@@ -16,10 +16,7 @@ class MenuPositionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.menu_position)
 
-        val test = intent.getStringExtra(MenuAdapter.ViewHolder.TITLE)
         val id = intent.getIntExtra(MenuAdapter.ViewHolder.ID, -1)
-
-        supportActionBar?.title = test
 
         val context = this
 

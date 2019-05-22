@@ -1,36 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-         xmlns:android="http://schemas.android.com/apk/res/android"
-         xmlns:app="http://schemas.android.com/apk/res-auto"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:fadingEdge="vertical"
-         android:background="@drawable/main">
-    <Button
-            android:onClick="orderMe"
-            android:text="Заказать столик"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="vertical" android:background="@drawable/menu2">
+    <TextView
+            android:text="Это приложение 'Ресторана'. У нас вы можете заказать столик на удобное для вас время. Ознакомиться с меню, чтобы не терять времени при посещении.
+Ждём вас в гости."
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_height="0dp"
+            android:id="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/button"
-            app:layout_constraintHorizontal_bias="0.497"/>
-
-    <Button
-            android:onClick="menuMe"
-            android:text="Посмотреть меню"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            app:layout_constraintTop_toBottomOf="@+id/button"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"/>
-
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="36sp"
+            android:textColor="#440202"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"/>
 </android.support.constraint.ConstraintLayout>

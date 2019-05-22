@@ -5,5 +5,9 @@
     <string name="set_order">Заказать столик</string>
     <string name="menu_title">Меню</string>
     <string name="set_order_title">Заказ столика</string>
-    <string name="rouble"> руб.</string>
+    <string name="rouble">руб.</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="detail">(подробнее)</string>
 </resources>
