@@ -4,3 +4,5 @@
 - бронирование столика
 - просмотр меню (список)
 - детальный просмотр позиции меню
+
+Внешний вид: https://drive.google.com/open?id=1yH4guOgl6mt09eMhp2X_MeMXJ9WPYLw9
