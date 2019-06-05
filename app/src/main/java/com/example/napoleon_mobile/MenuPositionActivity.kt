@@ -49,7 +49,7 @@ class MenuPositionActivity : AppCompatActivity() {
     fun fetchJSON(db : DBHandler)
     {
         val positionId = intent.getIntExtra(MenuAdapter.ViewHolder.ID, -1)
-        val positionUrl = "http://www.s192361.smrtp.ru/position.php?id=" + positionId
+        val positionUrl = "https://test-api-napoleon.000webhostapp.com/position.php?id=" + positionId
 
         val client = OkHttpClient()
         val request = Request.Builder().url(positionUrl).build()

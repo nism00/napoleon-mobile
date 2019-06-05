@@ -31,7 +31,7 @@ class MenuActivity: AppCompatActivity(), CoroutineScope {
 
     private fun loadData() = launch {
         val request = Request.Builder()
-            .url("http://www.s192361.smrtp.ru/menu_list.php")
+            .url("https://test-api-napoleon.000webhostapp.com/menu_list.php")
             .build()
         val response: String = withContext(Dispatchers.IO) {
             httpClient.newCall(request).execute().body()!!.string()

@@ -74,7 +74,7 @@ class OrderActivity : AppCompatActivity() {
 
     fun sendOrderToApi() {
         val httpClient = OkHttpClient.Builder().build()
-        val request = Request.Builder().url("http://www.s192361.smrtp.ru/insert_order.php?" +
+        val request = Request.Builder().url("https://test-api-napoleon.000webhostapp.com/insert_order.php?" +
                 "date="+date.text+
                 "&name="+userName.text+
                 "&time="+time.text+
